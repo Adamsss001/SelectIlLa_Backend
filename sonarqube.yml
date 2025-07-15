@@ -1,4 +1,4 @@
-name: SonarQube Scan
+name: SonarCloud Scan
 
 on:
   push:
@@ -9,29 +9,20 @@ on:
       - main
 
 jobs:
-  sonarqube:
-    name: SonarQube Scan
+  sonarcloud:
+    name: SonarCloud
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run SonarQube Scanner
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          npm install -g sonar-scanner
-          sonar-scanner \
-            -Dsonar.projectKey=SelectIlLa_Backend \
-            -Dsonar.sources=. \
-            -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.login=$SONAR_TOKEN
+        with:
+          args: >
+            -Dsonar.projectKey=Adamsss001_SelectIlLa_Backend
+            -Dsonar.organization=adamsss001
+            -Dsonar.host.url=https://sonarcloud.io
+
